@@ -73,6 +73,24 @@ public class cardBizimpl implements cardBiz {
 		return cd.updateBa(cid, price);
 	}
 
+	@Override
+	public double updateInt(int cid, double caintegral) {
+		// TODO Auto-generated method stub
+		return cd.updateInt(cid, caintegral);
+	}
+
+	@Override
+	public double selectInt(int cid) {
+		
+		return cd.selectInt(cid);
+	}
+
+	@Override
+	public boolean updateType(int cid, String catype) {
+		
+		return cd.updateType(cid, catype);
+	}
+
 
 
 }

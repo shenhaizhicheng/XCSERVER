@@ -13,7 +13,7 @@ public class cardDaoimpl implements cardDao {
 	@Override
 	public int opencard(int caccount) {
 		this.db = new DBUtil();
-		String sql = "insert into card values(seq_caccount.nextval," + caccount + ",1,0,0)";
+		String sql = "insert into card values(seq_caid.nextval," + caccount + ",'0',0,'0',0)";
 		try {
 			int i = this.db.update(sql);
 
@@ -79,8 +79,6 @@ public class cardDaoimpl implements cardDao {
 		} catch (SQLException e) {
 
 			e.printStackTrace();
-		}finally {
-			this.db.closed();
 		}
 		return null;
 	}
@@ -89,9 +87,9 @@ public class cardDaoimpl implements cardDao {
 	public int buildcard(Card card, int caccount) {
 		this.db = new DBUtil();
 		this.delectcard(caccount);
-		String sql = "insert into card values(seq_caccount.nextval," + caccount + ",?,?,?)";
+		String sql = "insert into card values(seq_caid.nextval," + caccount + ",?,?,?,?)";
 		try {
-			int i = this.db.update(sql, card.getCatype(), card.getCabalance(), card.getCastate());
+			int i = this.db.update(sql, card.getCatype(), card.getCabalance(), card.getCastate(),card.getCainteggral());
 			return this.selectBycaccount(caccount);
 
 		} catch (SQLException e) {
@@ -120,8 +118,6 @@ public class cardDaoimpl implements cardDao {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}finally {
-			this.db.closed();
 		}
 		return 0;
 	}
@@ -135,8 +131,6 @@ public class cardDaoimpl implements cardDao {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}finally {
-			this.db.closed();
 		}
 
 	}
@@ -148,15 +142,13 @@ public class cardDaoimpl implements cardDao {
 		try {
 			ResultSet rs = this.db.query(sql);
 			if(rs.next()){
-				Card c=new Card(rs.getDouble("cabalance"), rs.getString("catype"), rs.getString("castate"));
+				Card c=new Card(rs.getDouble("cabalance"), rs.getString("catype"), rs.getString("castate"),rs.getDouble("caintegral"));
 				c.setCaid(rs.getInt("cid"));
 				return c;
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}finally {
-			this.db.closed();
 		}
 		return null;
 	}
@@ -173,8 +165,6 @@ public class cardDaoimpl implements cardDao {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}finally {
-			this.db.closed();
 		}
 		return 0;
 	}
@@ -193,8 +183,6 @@ public class cardDaoimpl implements cardDao {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}finally {
-			this.db.closed();
 		}
 		return 0000;
 	}
@@ -212,6 +200,56 @@ public class cardDaoimpl implements cardDao {
 		} finally {
 			this.db.closed();
 		}
+	}
+
+	@Override
+	public double updateInt(int cid, double caintegral) {
+		this.db = new DBUtil();
+		double in = this.selectInt(cid);
+		double integ=in+caintegral;
+		String sql="update card set caintegral="+integ+" where cid="+cid;
+		try {
+			int i = this.db.update(sql);
+			if(i>0){
+				double newinteg = this.selectInt(cid);
+				return newinteg;
+			}
+			return in;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return in;
+	}
+
+	@Override
+	public double selectInt(int cid) {
+		this.db = new DBUtil();
+		String sql="select caintegral from card where cid="+cid;
+		try {
+			ResultSet rs = this.db.query(sql);
+			if(rs.next()){
+				return rs.getDouble("caintegral");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
+	@Override
+	public boolean updateType(int cid, String catype) {
+		this.db = new DBUtil();
+		String sql = "update card set catype='" + catype + "' where cid=" + cid;
+		try {
+			int i = this.db.update(sql);
+			return i > 0;
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		}
+		return false;
 	}
 
 }

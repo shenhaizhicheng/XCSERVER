@@ -1,6 +1,8 @@
 package com.java.xc.biz.impl;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.java.xc.biz.shopcarBiz;
 import com.java.xc.dao.shopcarDao;
@@ -17,7 +19,10 @@ public class shopcarBizimpl implements shopcarBiz {
 
 	@Override
 	public String insertShopcar(ShopCar s) {
-		
+		ShopCar sc = scD.selectBymeid(s.getM().getMeid(), s.getC().getCaccount());
+		if(sc!=null){
+			return scD.insertShopcarANY(s)?"添加成功":"添加失败";
+		}
 		return scD.insertShopcar(s)?"添加成功":"添加失败";
 	}
 
@@ -54,8 +59,56 @@ public class shopcarBizimpl implements shopcarBiz {
 	}
 
 	@Override
-	public boolean exportSales() {
+	public Map<String,Integer> salesTall() {
 		
+		return scD.salesTall();
+	}
+
+	@Override
+	public boolean deleteSale() {
+		// TODO Auto-generated method stub
+		return scD.deleteSale();
+	}
+
+	@Override
+	public void insertOF(String s, ShopCar sc) {
+		scD.insertOF(s,sc);
+		
+	}
+
+	@Override
+	public List<String> selectOFid() {
+		List<String> l=new ArrayList<String>();
+		List<String> list = scD.selectOFid();
+		for (String ofid : list) {
+			String ftime = scD.findtime(ofid);
+			String str=ofid+"#"+ftime;
+			l.add(str);
+		}
+		return l;
+	}
+
+	@Override
+	public Map<String, Integer> selectByOfid(String ofid) {
+		// TODO Auto-generated method stub
+		return scD.selectByOfid(ofid);
+	}
+
+	@Override
+	public boolean deleteByofid(String ofid) {
+		// TODO Auto-generated method stub
+		return scD.deleteByofid(ofid);
+	}
+
+	@Override
+	public int selectIDSalT() {
+		
+		return scD.selectIDSalT();
+	}
+
+	@Override
+	public String exportSales() {
+		// TODO Auto-generated method stub
 		return scD.exportSales();
 	}
 

@@ -35,6 +35,14 @@ public interface cardDao {
 
 	//解除卡挂失
 	public boolean relieveC(int cid);
-
+	
+	//修改积分
+	public double updateInt(int cid,double caintegral);
+	
+	//查询卡上积分
+	public double selectInt(int cid);
+	
+	//修改卡类型
+	public boolean updateType(int cid,String catype);
 
 }

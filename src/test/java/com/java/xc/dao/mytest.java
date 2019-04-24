@@ -6,6 +6,6 @@ public class mytest {
 	
 	public void export(){
 		shopcarDao sD=new shopcarDaoimpl();
-		sD.exportSales();
+//		sD.exportSales();
 	}
 }

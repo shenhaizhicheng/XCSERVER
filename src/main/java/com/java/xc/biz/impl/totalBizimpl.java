@@ -1,5 +1,6 @@
 package com.java.xc.biz.impl;
 
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -9,12 +10,15 @@ import com.java.xc.biz.clientBiz;
 import com.java.xc.biz.managerBiz;
 import com.java.xc.biz.menuBiz;
 import com.java.xc.biz.shopcarBiz;
+import com.java.xc.biz.staffBiz;
 import com.java.xc.biz.totalBiz;
+import com.java.xc.dao.impl.staffDaoimpl;
 import com.java.xc.domain.Card;
 import com.java.xc.domain.Client;
 import com.java.xc.domain.Manager;
 import com.java.xc.domain.Menu;
 import com.java.xc.domain.ShopCar;
+import com.java.xc.domain.Staff;
 
 public class totalBizimpl implements totalBiz {
 	managerBiz mB;
@@ -22,6 +26,7 @@ public class totalBizimpl implements totalBiz {
 	cardBiz caB;
 	menuBiz meB;
 	shopcarBiz scB;
+	staffBiz sfB;
 
 	public totalBizimpl() {
 		super();
@@ -30,6 +35,7 @@ public class totalBizimpl implements totalBiz {
 		this.caB =new cardBizimpl();
 		this.meB =new menuBizimpl();
 		this.scB =new shopcarBizimpl();
+		this.sfB=new staffBizimpl();
 	}
 
 	@Override
@@ -121,6 +127,25 @@ public class totalBizimpl implements totalBiz {
 		
 		return scB.selectBymeid(meid, caccount);
 	}
+	
+
+	@Override
+	public List<String> selectOFid() {
+		// TODO Auto-generated method stub
+		return scB.selectOFid();
+	}
+
+	@Override
+	public Map<String, Integer> selectByOfid(String ofid) {
+		// TODO Auto-generated method stub
+		return scB.selectByOfid(ofid);
+	}
+
+	@Override
+	public boolean deleteByofid(String ofid) {
+		// TODO Auto-generated method stub
+		return scB.deleteByofid(ofid);
+	}
 
 	@Override
 	public double addMoney(int caccount) {
@@ -131,7 +156,33 @@ public class totalBizimpl implements totalBiz {
 		}
 		double discount = caB.selectDis(caccount);
 		double endprice=price*discount;
-		return endprice;
+		
+		return Double.parseDouble(new DecimalFormat("#.##").format(endprice));
+	}
+	
+
+	@Override
+	public double updateInt(int cid, double caintegral) {
+		
+		return caB.updateInt(cid, caintegral);
+	}
+
+	@Override
+	public double selectInt(int cid) {
+		// TODO Auto-generated method stub
+		return caB.selectInt(cid);
+	}
+	
+	@Override
+	public String exportSales() {
+		// TODO Auto-generated method stub
+		return scB.exportSales();
+	}
+
+	@Override
+	public boolean updateType(int cid, String catype) {
+		// TODO Auto-generated method stub
+		return caB.updateType(cid, catype);
 	}
 
 	@Override
@@ -187,10 +238,24 @@ public class totalBizimpl implements totalBiz {
 	}
 
 	@Override
-	public boolean exportSales() {
+	public int selectIDSalT() {
 		
-		return scB.exportSales();
+		return scB.selectIDSalT();
 	}
+	
+	@Override
+	public Map<String,Integer> salesTall() {
+		
+		return scB.salesTall();
+	}
+	
+
+	@Override
+	public boolean deleteSale() {
+		// TODO Auto-generated method stub
+		return scB.deleteSale();
+	}
+
 
 	@Override
 	public Card selectBycid(int cid) {
@@ -208,6 +273,36 @@ public class totalBizimpl implements totalBiz {
 	public double selectDis(int caccount) {
 		// TODO Auto-generated method stub
 		return caB.selectDis(caccount);
+	}
+
+	@Override
+	public void insertOrderf(String s, ShopCar sc) {
+		
+		 scB.insertOF(s,sc);
+	}
+
+	@Override
+	public int insertSta(Staff s) {
+		// TODO Auto-generated method stub
+		return sfB.insertSta(s);
+	}
+
+	@Override
+	public Staff selectBysac(int saccount) {
+		// TODO Auto-generated method stub
+		return sfB.selectBysac(saccount);
+	}
+
+	@Override
+	public boolean deleteSta(int saccount) {
+		// TODO Auto-generated method stub
+		return sfB.deleteSta(saccount);
+	}
+
+	@Override
+	public String updatespw(int saccount, String newpw) {
+		// TODO Auto-generated method stub
+		return sfB.updatespw(saccount, newpw);
 	}
 
 	

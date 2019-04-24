@@ -41,8 +41,6 @@ public class menuDaoimpl implements menuDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
-		} finally {
-			this.db.closed();
 		}
 
 	}

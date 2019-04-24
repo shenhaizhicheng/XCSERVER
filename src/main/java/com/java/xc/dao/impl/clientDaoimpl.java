@@ -80,7 +80,7 @@ public class clientDaoimpl implements clientDao {
 				String str = rs.getString("cbirth");
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 				c.setCbirth(sdf.parse(str));
-				Card card=new Card(rs.getDouble("cabalance"),rs.getString("catype"),rs.getString("castate")); 
+				Card card=new Card(rs.getDouble("cabalance"),rs.getString("catype"),rs.getString("castate"),rs.getDouble("caintegral")); 
 				card.setCaid(rs.getInt("cid"));
 				c.setCard(card);
 				return c;
@@ -110,7 +110,7 @@ public class clientDaoimpl implements clientDao {
 				Client c = new Client(rs.getString("cpassword"), rs.getString("cname"), rs.getString("csex"),
 						rs.getDate("cbirth"), rs.getString("cemail"));
 				c.setCaccount(rs.getInt("caccount"));
-				Card card=new Card(rs.getDouble("cabalance"),rs.getString("catype"),rs.getString("castate")); 
+				Card card=new Card(rs.getDouble("cabalance"),rs.getString("catype"),rs.getString("castate"),rs.getDouble("caintegral")); 
 				card.setCaid(rs.getInt("cid"));
 				c.setCard(card);
 				list.add(c);
@@ -118,7 +118,7 @@ public class clientDaoimpl implements clientDao {
 			}
 			return list;
 		} catch (SQLException e) {
-			e.printStackTrace();
+			e.printStackTrace(); 
 			return null;
 		} finally {
 			this.db.closed();
