@@ -17,6 +17,7 @@ import com.java.xc.domain.Card;
 import com.java.xc.domain.Client;
 import com.java.xc.domain.Manager;
 import com.java.xc.domain.Menu;
+import com.java.xc.domain.Sales;
 import com.java.xc.domain.ShopCar;
 import com.java.xc.domain.Staff;
 
@@ -174,7 +175,7 @@ public class totalBizimpl implements totalBiz {
 	}
 	
 	@Override
-	public String exportSales() {
+	public List<Sales> exportSales() {
 		// TODO Auto-generated method stub
 		return scB.exportSales();
 	}

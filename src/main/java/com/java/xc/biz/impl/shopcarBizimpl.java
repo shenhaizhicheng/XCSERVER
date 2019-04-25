@@ -7,6 +7,7 @@ import java.util.Map;
 import com.java.xc.biz.shopcarBiz;
 import com.java.xc.dao.shopcarDao;
 import com.java.xc.dao.impl.shopcarDaoimpl;
+import com.java.xc.domain.Sales;
 import com.java.xc.domain.ShopCar;
 
 public class shopcarBizimpl implements shopcarBiz {
@@ -107,7 +108,7 @@ public class shopcarBizimpl implements shopcarBiz {
 	}
 
 	@Override
-	public String exportSales() {
+	public List<Sales> exportSales() {
 		// TODO Auto-generated method stub
 		return scD.exportSales();
 	}

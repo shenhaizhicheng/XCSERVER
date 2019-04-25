@@ -24,6 +24,7 @@ import com.java.xc.dao.clientDao;
 import com.java.xc.dao.shopcarDao;
 import com.java.xc.domain.Client;
 import com.java.xc.domain.Menu;
+import com.java.xc.domain.Sales;
 import com.java.xc.domain.ShopCar;
 import com.java.xc.util.DBUtil;
 
@@ -203,59 +204,24 @@ public class shopcarDaoimpl implements shopcarDao {
 	}
 
 	@Override
-	public String exportSales() {
+	public List<Sales> exportSales() {
+		List<Sales> list=new ArrayList<Sales>();
 		this.db = new DBUtil();
-		Date d=new Date();
-		int month=(d.getMonth()+1);
-		String path = month+"m.xls";
-		FileOutputStream out = null;
-		HSSFWorkbook book = new HSSFWorkbook();
-		HSSFSheet sheet = book.createSheet("表");
 		try {
 
-			String sql = "select sa.meid 菜品编号 ,me.mename 菜名,sa.sadate 销售日期 ,sa.caccount 客户编号,sa.sanumber 卖出数量  from salesrecord sa,menu me where sa.meid=me.meid";
+			String sql = "select sa.meid 菜品编号 ,me.mename 菜名,to_char(sa.sadate,'yyyy-mm-dd') 销售日期 ,sa.caccount 客户编号,sa.sanumber 卖出数量  from salesrecord sa,menu me where sa.meid=me.meid order by sa.sadate";
 			ResultSet rs = db.query(sql);
-			ResultSetMetaData rsmd = rs.getMetaData();// 得到结果集的字段名
-			int c = rsmd.getColumnCount();// 得到数据表的结果集的字段的数量
-			// 生成表单的第一行，即表头
-			HSSFRow row0 = sheet.createRow(0);// 创建第一行
-			for (int i = 0; i < c; i++) {
-				HSSFCell cel = row0.createCell(i);// 创建第一行的第i列
-				cel.setCellValue(rsmd.getColumnName(i + 1));
-				// cel.setCellStyle(style);
+			while(rs.next()){
+				list.add(new Sales(rs.getInt("菜品编号"), rs.getString("菜名"), rs.getString("销售日期"), rs.getInt("客户编号"), rs.getInt("卖出数量")));
+				
 			}
-			// 将数据表中的数据按行导入进Excel表中
-			int r = 1;
-			while (rs.next()) {
-				HSSFRow row = sheet.createRow(r++);// 创建非第一行的其他行
-				for (int i = 0; i < c; i++) {// 仍然是c列，导入第r行的第i列
-					HSSFCell cel = row.createCell(i);
-					// 以下两种写法均可
-					// cel.setCellValue(rs.getString(rsmd.getColumnName(i+1)));
-					cel.setCellValue(rs.getString(i + 1));
-				}
-			}
-			// 用文件输出流类创建名为table的Excel表格
-			out = new FileOutputStream(path);
-			book.write(out);// 将HSSFWorkBook中的表写入输出流中
-            File file=new File(path);
-			return file.getAbsolutePath();
+			return list;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return null;
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return null;
-		} finally {
-			try {
-				out.close();
+		}  finally {
 				this.db.closed();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 		}
 
 	}

@@ -3,6 +3,7 @@ package com.java.xc.dao;
 import java.util.List;
 import java.util.Map;
 
+import com.java.xc.domain.Sales;
 import com.java.xc.domain.ShopCar;
 
 public interface shopcarDao {
@@ -58,7 +59,7 @@ public interface shopcarDao {
 	public String findtime(String ofid);
 
 	//导出月销售单
-	public String exportSales();
+	public List<Sales> exportSales();
 	
 
 }

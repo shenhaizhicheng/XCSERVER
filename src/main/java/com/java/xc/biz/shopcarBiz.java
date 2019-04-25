@@ -3,6 +3,7 @@ package com.java.xc.biz;
 import java.util.List;
 import java.util.Map;
 
+import com.java.xc.domain.Sales;
 import com.java.xc.domain.ShopCar;
 
 public interface shopcarBiz {
@@ -43,5 +44,5 @@ public interface shopcarBiz {
 	public boolean deleteByofid(String ofid);
 
 	// 导出月销售单
-	public String exportSales();
+	public List<Sales> exportSales();
 }
